@@ -1,0 +1,67 @@
+Bem-vindo ao Sistema de Rede Social!
+
+1. Cadastro de Usuário
+2. Adicionar Amigo
+3. Buscar Conexões
+4. Recomendações de Amigos
+5. Visualizar Perfil
+6. Sair
+
+Escolha uma opção:
+
+
+Com base nesse menu, cada opção pode executar uma função específica:
+
+Cadastro de Usuário:
+
+Permite ao usuário criar um perfil com informações como nome, idade, etc., e armazená-lo na árvore binária.
+Adicionar Amigo:
+
+Permite ao usuário adicionar amigos, armazenando as conexões de amizade na tabela de dispersão.
+Buscar Conexões:
+
+Implementa algoritmos BFS e DFS para encontrar conexões entre os usuários.
+Recomendações de Amigos:
+
+Utiliza algum algoritmo de recomendação (pode ser baseado em interesses em comum, conexões de amigos de amigos, etc.) para sugerir novos amigos para o usuário.
+Visualizar Perfil:
+
+Permite ao usuário visualizar seu próprio perfil e suas informações armazenadas na árvore binária.
+Sair:
+
+Encerra a execução do programa.
+
+Uma tabela de dispersão (hash table) é uma estrutura de dados que mapeia
+chaves para valores. No contexto de uma rede social, você pode usar uma tabela de
+dispersão para armazenar conexões de amizade entre os usuários da seguinte maneira:
+
+1. **Chave:** Cada chave na tabela de dispersão pode ser o ID de
+usuário de um usuário na rede social.
+2. **Valor:** O valor associado a cada chave pode ser uma lista de
+IDs de usuários que são amigos do usuário correspondente à chave.
+
+Por exemplo, suponha que tenhamos os seguintes usuários e suas conexões de amizade:
+
+- Usuário 1 tem amigos 2, 3 e 4.
+- Usuário 2 tem amigos 1 e 3.
+- Usuário 3 tem amigos 1, 2 e 4.
+- Usuário 4 tem amigos 1 e 3.
+
+Podemos armazenar essas conexões de amizade em uma tabela de dispersão da seguinte maneira:
+
+```plaintext
+Chave   | Valor
+--------|------------
+1       | [2, 3, 4]
+2       | [1, 3]
+3       | [1, 2, 4]
+4       | [1, 3]
+```
+
+Dessa forma, quando precisarmos verificar as conexões de amizade
+de um usuário específico, podemos procurar seu ID na tabela de dispersão e
+obter sua lista de amigos diretamente.
+
+Essa abordagem é eficiente para recuperar as conexões de amizade de um
+usuário, uma vez que o acesso aos elementos em uma tabela de
+dispersão é geralmente de tempo constante (O(1)).
