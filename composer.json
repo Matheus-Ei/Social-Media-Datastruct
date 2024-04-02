@@ -1,0 +1,15 @@
+{
+    "name": "alexa/trabalho-algoritimos",
+    "autoload": {
+        "psr-4": {
+            "Alexa\\TrabalhoAlgoritimos\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "AlexandreBeilner",
+            "email": "alexandrebeilner8@gmail.com"
+        }
+    ],
+    "require": {}
+}
