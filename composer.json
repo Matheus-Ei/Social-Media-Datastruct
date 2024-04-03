@@ -1,9 +1,24 @@
 {
+<<<<<<< HEAD
     "name": "ixcsoft/social-media-datastruct",
     "autoload": {
         "psr-4": {
             "src\\": "src/"
         }
     },
+=======
+    "name": "alexa/trabalho-algoritimos",
+    "autoload": {
+        "psr-4": {
+            "Alexa\\TrabalhoAlgoritimos\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "AlexandreBeilner",
+            "email": "alexandrebeilner8@gmail.com"
+        }
+    ],
+>>>>>>> origin/main
     "require": {}
 }
