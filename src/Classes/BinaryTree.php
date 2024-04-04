@@ -5,10 +5,12 @@ namespace src\Classes;
 class BinaryTree
 {
     public ?Node $root;
+    private int $allNodes;
 
     public function __construct()
     {
         $this->root = null;
+        $this->allNodes = 0;
     }
 
     public function insertUser(User $data): void
@@ -19,6 +21,7 @@ class BinaryTree
         } else {
             $this->insertNode($this->root, $newNode);
         }
+        $this->allNodes++;
     }
 
     private function insertNode(?Node &$node, Node &$newNode): void
@@ -34,12 +37,18 @@ class BinaryTree
         }
     }
 
-    public static function generateId(): int
+    public function generateId(): int
     {
-        return rand(0, 1000);
+        if ($this->allNodes == 0) {
+            return 1000;
+        } elseif ($this->allNodes % 2 == 0) {
+            return rand(1001, 2000);
+        } else {
+            return rand(1, 999);
+        }
     }
 
-    public function searchNode(?Node $node, int $value): null|Node
+    public function searchNodeByID(?Node $node, int $value): null|Node
     {
         if ($node === null) {
             return null;
@@ -47,18 +56,33 @@ class BinaryTree
             if ($node->data->getId() === $value) {
                 return $node;
             } elseif ($value < $node->data->getId()) {
-                return $this->searchNode($node->leftChild, $value);
+                return $this->searchNodeByID($node->leftChild, $value);
             } else {
-                return $this->searchNode($node->rightChild, $value);
+                return $this->searchNodeByID($node->rightChild, $value);
             }
         }
     }
 
-    public function inorderTraversal($node): void
+//    public function searchNodeByEmailPassword(?Node $node, string $email, string $password): null|Node
+//    {
+//        if ($node === null) {
+//            return null;
+//        } else {
+//            if ($node->data->getId() === $value) {
+//                return $node;
+//            } elseif ($value < $node->data->getId()) {
+//                return $this->searchNodeByID($node->leftChild, $value);
+//            } else {
+//                return $this->searchNodeByID($node->rightChild, $value);
+//            }
+//        }
+//    }
+
+    public function inorderTraversal(?Node $node): void
     {
         if ($node !== null) {
             $this->inorderTraversal($node->leftChild);
-            var_dump($node->data);
+            echo $node->data->getId() . ". " . $node->data->getName() . PHP_EOL;
             $this->inorderTraversal($node->rightChild);
         }
     }

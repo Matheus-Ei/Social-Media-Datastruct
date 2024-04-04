@@ -1,9 +1,9 @@
 {
-  "name": "ixcsoft/social-media-datastruct",
-  "autoload": {
-    "psr-4": {
-      "src\\": "src/"
-    }
-  },
-  "require": {}
+    "name": "ixcsoft/social-media-datastruct",
+    "autoload": {
+        "psr-4": {
+            "src\\": "src/"
+        }
+    },
+    "require": {}
 }

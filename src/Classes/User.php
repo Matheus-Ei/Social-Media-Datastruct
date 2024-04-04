@@ -7,14 +7,18 @@ class User
     private int $id;
     private string $name;
     private int $age;
+    private string $email;
+    private string $password;
     private array $connections = [];
 
 
-    public function __construct(int $age, string $name, int $id)
+    public function __construct(int $age, string $name, int $id, string $email, string $password)
     {
         $this->id = $id;
         $this->name = $name;
         $this->age = $age;
+        $this->email = $email;
+        $this->password = $password;
     }
 
     /**
@@ -46,6 +50,16 @@ class User
     public function getConnections(): array
     {
         return $this->connections;
+    }
+
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    public function getPassword(): string
+    {
+        return $this->password;
     }
 
 }

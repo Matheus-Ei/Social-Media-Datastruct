@@ -2,6 +2,8 @@
 
 namespace src\Classes;
 
+use src\Utils\Utils;
+
 class SocialNetwork
 {
     private BinaryTree $tree;
@@ -9,15 +11,30 @@ class SocialNetwork
     public function __construct()
     {
         $this->tree = new BinaryTree();
+        $util = new Utils();
+        $util->createUsersInTree($this->tree);
     }
 
-    public function createUser(): void
+    public function login()
+    {
+        echo "Digite o seu email: ";
+        $email = trim(fgets(STDIN));
+        echo "Digite a sua senha: ";
+        $password = trim(fgets(STDIN));
+
+    }
+
+    public function createAccount(): void
     {
         echo "Digite o seu nome: ";
-        $nome = trim(fgets(STDIN));
+        $name = trim(fgets(STDIN));
+        echo "Digite o seu email: ";
+        $email = trim(fgets(STDIN));
         echo "Digite a sua idade: ";
-        $idade = trim(fgets(STDIN));
-        $this->tree->insertUser(new User($idade, $nome, $this->tree::generateId()));
+        $age = trim(fgets(STDIN));
+        echo "Digite a sua senha: ";
+        $password = trim(fgets(STDIN));
+        $this->tree->insertUser(new User($age, $name, $this->tree->generateId(), $email, $password));
     }
 
     public function showUsers(): void
@@ -25,13 +42,17 @@ class SocialNetwork
         $this->tree->inorderTraversal($this->tree->root);
     }
 
-    public function addFriendship(int $userId, int $frinedId): void
+    public function addFriendship(): void
     {
-        $user = $this->tree->searchNode($this->tree->root, $userId);
-        $friend = $this->tree->searchNode($this->tree->root, $frinedId);
+        echo "Digite o seu codigo";
+        $userId = trim(fgets(STDIN));
+        echo "Digite o codigo do seu amigo";
+        $friendId = trim(fgets(STDIN));
+        $user = $this->tree->searchNodeByID($this->tree->root, $userId);
+        $friend = $this->tree->searchNodeByID($this->tree->root, $friendId);
 
         $userConections = $user->data->getConnections();
-        $userConections[] = $frinedId;
+        $userConections[] = $friendId;
         $user->data->setConnections($userConections);
 
         $friendConnections = $friend->data->getConnections();
