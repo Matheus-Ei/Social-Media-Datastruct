@@ -4,7 +4,6 @@ namespace src\Classes;
 
 class User
 {
-    private int $id;
     private string $name;
     private int $age;
     private string $email;
@@ -12,9 +11,8 @@ class User
     private array $connections = [];
 
 
-    public function __construct(int $age, string $name, int $id, string $email, string $password)
+    public function __construct(int $age, string $name, string $email, string $password)
     {
-        $this->id = $id;
         $this->name = $name;
         $this->age = $age;
         $this->email = $email;
@@ -37,11 +35,6 @@ class User
         return $this->age;
     }
 
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
     public function setConnections(array $connections): void
     {
         $this->connections = $connections;
@@ -55,6 +48,12 @@ class User
     public function getEmail(): string
     {
         return $this->email;
+    }
+
+    public function getEmailToAtSign(): string
+    {
+        $email = explode('@', $this->email);
+        return strtolower($email[0]);
     }
 
     public function getPassword(): string

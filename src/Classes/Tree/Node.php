@@ -1,6 +1,8 @@
 <?php
 
-namespace src\Classes;
+namespace src\Classes\Tree;
+
+use src\Classes\User;
 
 class Node
 {
