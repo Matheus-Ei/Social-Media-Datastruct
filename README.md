@@ -10,3 +10,8 @@ Repository for the Work of the Advanced Data Structures Discipline
 ```bash
 composer install
 ```
+# Step 3: Run composer du
+```bash
+composer du
+```
+
