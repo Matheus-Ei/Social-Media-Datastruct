@@ -10,10 +10,12 @@ use src\Classes\User;
 class BinaryTree
 {
     private ?Node $root;
+    private array $hashTable;
 
     public function __construct()
     {
         $this->root = null;
+        $this->hashTable = [];
     }
 
     public function insert(User $data): void
@@ -21,6 +23,8 @@ class BinaryTree
         $newNode = new Node($data);
         if ($this->root === null) {
             $this->root = $newNode;
+            $email = $this->root->data->getEmail();
+            $this->hashTable[] = ["$email" => []];
         } else {
             $this->insertNode($this->root, $newNode);
         }
@@ -29,6 +33,8 @@ class BinaryTree
     private function insertNode(?Node &$node, Node &$newNode): void
     {
         if ($node === null) {
+            $email = $newNode->data->getEmail();
+            $this->hashTable[] = ["$email" => []];
             $node = $newNode;
         } else {
             if (strcmp($newNode->data->getEmailToAtSign(), $node->data->getEmailToAtSign()) === 0) {
@@ -39,6 +45,11 @@ class BinaryTree
                 $this->insertNode($node->rightChild, $newNode);
             }
         }
+    }
+
+    public function getHashTable(): array
+    {
+        return $this->hashTable;
     }
 
     public function searchNodeByEmail(?Node $node, string $email): null|User

@@ -24,3 +24,6 @@ try {
 } catch (EmailOrPasswordIsIncorrectException $e) {
     echo $e->getMessage();
 }
+
+
+var_dump($tree->getHashTable());
