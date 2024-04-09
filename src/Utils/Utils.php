@@ -25,4 +25,10 @@ class Utils
         $socialNetwork->insert(new User(99, "Jorge", "jorge@gmail.com", "123456"));
         $socialNetwork->insert(new User(99, "Lionel Ronaldo Junior", "lrj@gmail.com", "123456"));
     }
+
+    public static function pressEnter(): void
+    {
+        echo "Precione a tecla 'enter' para continuar" . PHP_EOL;
+        fgets(STDIN);
+    }
 }
