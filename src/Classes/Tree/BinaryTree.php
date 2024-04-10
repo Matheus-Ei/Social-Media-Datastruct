@@ -67,16 +67,19 @@ class BinaryTree
         }
     }
 
+    /**
+     * @throws EmailOrPasswordIsIncorrectException
+     */
     public function searchNodeByEmailAndPassword(?Node $node, string $email, string $password): null|User
     {
         if ($node === null) {
             throw new EmailOrPasswordIsIncorrectException();
         } else {
             if ($node->data->getEmail() === $email) {
-                if (!$node->data->getPassword() == $password) {
-                    throw new EmailOrPasswordIsIncorrectException();
+                if ($node->data->getPassword() === $password) {
+                    return $node->data;
                 }
-                return $node->data;
+                throw new EmailOrPasswordIsIncorrectException();
             } elseif (strcmp($email, $node->data->getEmail()) < 0) {
                 return $this->searchNodeByEmailAndPassword($node->leftChild, $email, $password);
             } else {

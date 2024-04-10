@@ -2,6 +2,7 @@
 
 namespace src\Classes;
 
+use src\Classes\Exceptions\EmailAlreadyExistsException;
 use src\Classes\Exceptions\EmailOrPasswordIsIncorrectException;
 use src\Classes\Tree\BinaryTree;
 use src\Utils\Utils;
@@ -39,10 +40,25 @@ class SocialNetwork
         try {
             $user = $this->tree->searchNodeByEmailAndPassword($this->tree->getRoot(), $email, $password);
             $this->user = new User($user->getAge(), $user->getName(), $user->getEmail(), $user->getPassword());
-            echo "Login realizado com sucesso";
+            echo "Login realizado com sucesso" . PHP_EOL;
             $this->util::pressEnter();
             return true;
         } catch (EmailOrPasswordIsIncorrectException $e) {
+            echo $e->getMessage();
+            $this->util::pressEnter();
+            return false;
+        }
+    }
+
+
+    public function signUp(string $name, string $age, string $email, string $password): bool
+    {
+        try {
+            $this->tree->insert(new User($age, $name, $email, $password));
+            echo "Conta criada com sucesso" . PHP_EOL;
+            $this->util::pressEnter();
+            return true;
+        } catch (EmailAlreadyExistsException $e) {
             echo $e->getMessage();
             $this->util::pressEnter();
             return false;
