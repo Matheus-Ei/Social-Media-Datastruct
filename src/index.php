@@ -6,4 +6,4 @@ require '../vendor/autoload.php';
 
 $menu = new Menu();
 
-$menu->createAccount();
+$menu->selectLoginOption();

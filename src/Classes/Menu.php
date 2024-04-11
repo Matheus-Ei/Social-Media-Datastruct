@@ -30,61 +30,74 @@ class Menu
         echo "0. Sair" . PHP_EOL;
     }
 
-    public function selectLoginOption(): void
+    public function selectMenuOption(): void
     {
-        echo "Selecione alguma opção abaixo de acordo com seu numero:" . PHP_EOL;
-        $this::loginOptions();
-        $this->options = fgets(STDIN);
-        switch ($this->options) {
-            case 1:
-                $this->addFriend();
+        while (true) {
+            echo PHP_EOL;
+            echo "Selecione alguma opção abaixo de acordo com seu numero:" . PHP_EOL;
+            $this::menuOptions();
+            $this->options = fgets(STDIN);
+            if ($this->options == 5) {
                 break;
-            case 2:
-                $this->getConnection();
-                break;
-            case 3:
-                $this->recommendFriends();
-                break;
-            case 4:
-                break;
-            case 5:
-                $this->showProfile();
-                break;
-            default:
-                echo "A o valor digitado deve ser entre 1 e 5" . PHP_EOL;
-                break;
+            }
+            switch ($this->options) {
+                case 1:
+                    $this->addFriend();
+                    break;
+                case 2:
+                    $this->getConnection();
+                    break;
+                case 3:
+                    $this->recommendFriends();
+                    break;
+                case 4:
+                    $this->showProfile();
+                    break;
+                default:
+                    echo PHP_EOL . "A o valor digitado deve ser entre 1 e 5" . PHP_EOL;
+                    break;
+            }
         }
     }
 
-    public function selectMenuOption(): void
+    public function selectLoginOption(): void
     {
-        echo "Selecione alguma opção abaixo de acordo com seu numero:" . PHP_EOL;
-        $this::menuOptions();
-        $this->options = fgets(STDIN);
-        switch ($this->options) {
-            case 1:
-                $this->login();
+        while (true) {
+            echo "Selecione alguma opção abaixo de acordo com seu numero:" . PHP_EOL;
+            $this::loginOptions();
+            $this->options = fgets(STDIN);
+            if ($this->options == 0) {
                 break;
-            case 2:
-                $this->createAccount();
-                break;
-            default:
-                echo "A o valor digitado deve ser entre 0 e 2" . PHP_EOL;
-                break;
+            }
+            switch ($this->options) {
+                case 1:
+                    $this->login();
+                    break;
+                case 2:
+                    $this->createAccount();
+                    break;
+                default:
+                    echo "A o valor digitado deve ser entre 0 e 2" . PHP_EOL;
+                    break;
+            }
         }
     }
 
     private static function emailAndPass(): array
     {
+        echo PHP_EOL;
         echo "Digite o seu email:";
         $email = trim(fgets(STDIN));
         echo "Digite a sua senha: ";
         $password = trim(fgets(STDIN));
+        echo PHP_EOL;
         return ["email" => $email, "password" => $password];
     }
 
     private static function nameEmailAgeAndPass(): array
     {
+        echo PHP_EOL;
+        echo "Vamos criar a sua conta, preeencha os valores nos campos abaixo" . PHP_EOL;
         echo "Digite o seu nome:";
         $name = trim(fgets(STDIN));
         echo "Digite a sua idade:";
@@ -93,6 +106,7 @@ class Menu
         $email = trim(fgets(STDIN));
         echo "Digite a sua senha: ";
         $password = trim(fgets(STDIN));
+        echo PHP_EOL;
         return ["name" => $name, "age" => $age, "email" => $email, "password" => $password];
     }
 
@@ -105,6 +119,7 @@ class Menu
             $data = self::nameEmailAgeAndPass();
             $success = $this->socialNetwork->signUp($data['name'], intval($data['age']), $data['email'], $data['password']);
         }
+        $this->selectMenuOption();
     }
 
     public function login(): void
@@ -116,11 +131,14 @@ class Menu
             $data = self::emailAndPass();
             $success = $this->socialNetwork->signIn($data['email'], $data['password']);
         }
+        $this->selectMenuOption();
     }
 
-    public function addFriend()
+    public function addFriend(): void
     {
-
+        echo "Digite o email do seu amigo: " . PHP_EOL;
+        $email = trim(fgets(STDIN));
+        $this->socialNetwork->addFriend($email);
     }
 
     public function getConnection()
@@ -133,8 +151,8 @@ class Menu
 
     }
 
-    public function showProfile()
+    public function showProfile(): void
     {
-
+        $this->socialNetwork->showProfile($this->socialNetwork->getUser());
     }
 }

@@ -92,4 +92,9 @@ class BinaryTree
     {
         return $this->root;
     }
+
+    public function setHashTable(array $hashTable): void
+    {
+        $this->hashTable = $hashTable;
+    }
 }
