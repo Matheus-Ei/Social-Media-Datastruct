@@ -23,18 +23,6 @@ class SocialNetwork
         $this->user = null;
     }
 
-    public function createAccount(): void
-    {
-        echo "Digite o seu nome: ";
-        $name = trim(fgets(STDIN));
-        echo "Digite o seu email: ";
-        $email = trim(fgets(STDIN));
-        echo "Digite a sua idade: ";
-        $age = trim(fgets(STDIN));
-        echo "Digite a sua senha: ";
-        $password = trim(fgets(STDIN));
-    }
-
     public function signIn(string $email, string $password): bool
     {
         try {
@@ -74,7 +62,7 @@ class SocialNetwork
         echo "Amizades: ----------------" . PHP_EOL;
         $hashTable = $this->tree->getHashTable();
 
-        if ($hashTable[$user->getEmail()]) {
+        if (key_exists($user->getEmail(), $hashTable) && $hashTable[$user->getEmail()]) {
             $count = 1;
             foreach ($hashTable[$user->getEmail()] as $friends) {
                 echo $count . " - $friends" . PHP_EOL;
@@ -101,9 +89,20 @@ class SocialNetwork
         }
     }
 
-    public function searchRecommendation(): void
+    public function searchRecommendation(): ?array
     {
-
+        $connections = $this->tree->getHashTable();
+        $userConnections = $connections[$this->user->getEmail()];
+        $allConnections = [];
+        foreach ($userConnections as $connection) {
+            try {
+                $conn = $this->tree->searchNodeByEmail($this->tree->getRoot(), $connection);
+                $allConnections[] = $conn->getConnections();
+            } catch (UserNotFoundException $e) {
+                echo $e->getMessage();
+            }
+        }
+        return $allConnections;
     }
 
     public function getUser(): ?User

@@ -4,7 +4,7 @@ namespace src\Classes;
 
 class Menu
 {
-    private int $options;
+    private string $options;
     private SocialNetwork $socialNetwork;
 
     public function __construct()
@@ -37,20 +37,20 @@ class Menu
             echo "Selecione alguma opção abaixo de acordo com seu numero:" . PHP_EOL;
             $this::menuOptions();
             $this->options = fgets(STDIN);
-            if ($this->options == 5) {
+            if ($this->options == "5") {
                 break;
             }
             switch ($this->options) {
-                case 1:
+                case "1":
                     $this->addFriend();
                     break;
-                case 2:
+                case "2":
                     $this->getConnection();
                     break;
-                case 3:
+                case "3":
                     $this->recommendFriends();
                     break;
-                case 4:
+                case "4":
                     $this->showProfile();
                     break;
                 default:
@@ -66,18 +66,18 @@ class Menu
             echo "Selecione alguma opção abaixo de acordo com seu numero:" . PHP_EOL;
             $this::loginOptions();
             $this->options = fgets(STDIN);
-            if ($this->options == 0) {
+            if ($this->options == "0") {
                 break;
             }
             switch ($this->options) {
-                case 1:
+                case "1":
                     $this->login();
                     break;
-                case 2:
+                case "2":
                     $this->createAccount();
                     break;
                 default:
-                    echo "A o valor digitado deve ser entre 0 e 2" . PHP_EOL;
+                    echo PHP_EOL . "A o valor digitado deve ser entre 0 e 2" . PHP_EOL;
                     break;
             }
         }
@@ -146,9 +146,9 @@ class Menu
 
     }
 
-    public function recommendFriends()
+    public function recommendFriends(): void
     {
-
+        $recommends = $this->socialNetwork->searchRecommendation();
     }
 
     public function showProfile(): void
