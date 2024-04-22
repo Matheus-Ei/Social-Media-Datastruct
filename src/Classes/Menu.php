@@ -17,7 +17,7 @@ class Menu
     {
         echo "Selecione a opção de acordo com numero" . PHP_EOL;
         echo "1. Adicionar Amigo" . PHP_EOL;
-        echo "2. Buscar Conexões" . PHP_EOL;
+        echo "2. Exibir meus Amigos" . PHP_EOL;
         echo "3. Recomendações de Amigos" . PHP_EOL;
         echo "4. Visualizar Perfil" . PHP_EOL;
         echo "5. Sair" . PHP_EOL;
@@ -143,7 +143,9 @@ class Menu
 
     public function getConnection()
     {
-
+        echo PHP_EOL;
+        $usr = $this->socialNetwork->getUser();
+        $this->socialNetwork->showFriends($usr);
     }
 
     public function recommendFriends(): void
@@ -153,6 +155,7 @@ class Menu
 
     public function showProfile(): void
     {
+        
         $this->socialNetwork->showProfile($this->socialNetwork->getUser());
     }
 }
