@@ -2,15 +2,20 @@
 
 namespace src\Classes;
 
+use src\Utils\Utils;
+
 class Menu
 {
     private string $options;
     private SocialNetwork $socialNetwork;
+    private Utils $utils;
 
     public function __construct()
     {
         $this->options = -1;
         $this->socialNetwork = new SocialNetwork();
+        $this->utils = new Utils();
+        $this->utils->addFriendsToMarcos($this->socialNetwork);
     }
 
     private static function menuOptions(): void
@@ -20,7 +25,8 @@ class Menu
         echo "2. Exibir meus Amigos" . PHP_EOL;
         echo "3. Recomendações de Amigos" . PHP_EOL;
         echo "4. Visualizar Perfil" . PHP_EOL;
-        echo "5. Sair" . PHP_EOL;
+        echo "5. Deletar amigo" . PHP_EOL;
+        echo "6. Sair" . PHP_EOL;
     }
 
     private static function loginOptions(): void
@@ -37,7 +43,7 @@ class Menu
             echo "Selecione alguma opção abaixo de acordo com seu numero:" . PHP_EOL;
             $this::menuOptions();
             $this->options = fgets(STDIN);
-            if ($this->options == "5") {
+            if ($this->options == "6") {
                 break;
             }
             switch ($this->options) {
@@ -53,10 +59,14 @@ class Menu
                 case "4":
                     $this->showProfile();
                     break;
+                case "5":
+                    $this->deleteFriend();
+                    break;
                 default:
                     echo PHP_EOL . "A o valor digitado deve ser entre 1 e 5" . PHP_EOL;
                     break;
             }
+            $this->utils::pressEnter();
         }
     }
 
@@ -141,7 +151,14 @@ class Menu
         $this->socialNetwork->addFriend($email);
     }
 
-    public function getConnection()
+    public function deleteFriend(): void
+    {
+        echo "Digite o email do seu amigo para deletar: " . PHP_EOL;
+        $email = trim(fgets(STDIN));
+        $this->socialNetwork->deleteFriend($email);
+    }
+
+    public function getConnection(): void
     {
         echo PHP_EOL;
         $usr = $this->socialNetwork->getUser();
@@ -151,11 +168,19 @@ class Menu
     public function recommendFriends(): void
     {
         $recommends = $this->socialNetwork->searchRecommendation();
+        if (count($recommends) > 0) {
+            foreach ($recommends as $key => $recommend) {
+                echo $key + 1 . ': ' . $recommend . PHP_EOL;
+            }
+            echo "Adicione mais amigos para aparecer mais recomendações" . PHP_EOL;
+        }else{
+            echo "Adicione amigos para aparecer recomendações" . PHP_EOL;
+        }
     }
 
     public function showProfile(): void
     {
-        
+
         $this->socialNetwork->showProfile($this->socialNetwork->getUser());
     }
 }

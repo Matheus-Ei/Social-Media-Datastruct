@@ -32,11 +32,9 @@ class SocialNetwork
             return true;
         } catch (EmailOrPasswordIsIncorrectException $e) {
             echo $e->getMessage();
-            $this->util::pressEnter();
             return false;
         }
     }
-
 
     public function signUp(string $name, string $age, string $email, string $password): bool
     {
@@ -44,11 +42,9 @@ class SocialNetwork
             $this->tree->insert(new User($age, $name, $email, $password));
             echo "Conta criada com sucesso" . PHP_EOL;
             $this->user = new User($age, $name, $email, $password);
-            $this->util::pressEnter();
             return true;
         } catch (EmailAlreadyExistsException $e) {
             echo $e->getMessage();
-            $this->util::pressEnter();
             return false;
         }
     }
@@ -71,31 +67,59 @@ class SocialNetwork
                 $hashTable = $this->tree->getHashTable();
                 $hashTable[$this->user->getEmail()][] = $friendEmail;
                 $hashTable[$friendEmail][] = $this->user->getEmail();
+                $this->user->setConnections($hashTable[$this->user->getEmail()]);
+                $friend->setConnections($hashTable[$friendEmail]);
                 $this->tree->setHashTable($hashTable);
                 echo PHP_EOL;
                 echo "Amigo adicionado com sucesso" . PHP_EOL;
-                $this->util::pressEnter();
             } else {
                 echo "Você não pode adicionar a si mesmo como amigo" . PHP_EOL;
-                $this->util::pressEnter();
             }
         } catch (UserNotFoundException $e) {
             echo $e->getMessage();
-            $this->util::pressEnter();
+        }
+    }
+    public function deleteFriend(string $friendEmail): void
+    {
+        try {
+            if($this->user->getEmail() != $friendEmail) {
+                $friend = $this->tree->searchNodeByEmail($this->tree->getRoot(), $friendEmail);
+                $hashTable = $this->tree->getHashTable();
+               $key = array_search($friendEmail, $hashTable[$this->user->getEmail()]);
+               if($key !== false){
+                   unset($hashTable[$this->user->getEmail()][$key]);
+                   unset($hashTable[$friendEmail][$this->user->getEmail()]);
+               }else{
+                   return;
+               }
+                $this->user->setConnections($hashTable[$this->user->getEmail()]);
+                $friend->setConnections($hashTable[$friendEmail]);
+                $this->tree->setHashTable($hashTable);
+                echo PHP_EOL;
+                echo "Amigo deletado com sucesso" . PHP_EOL;
+            } else {
+                echo "Você não pode se auto deletar" . PHP_EOL;
+            }
+        } catch (UserNotFoundException $e) {
+            echo $e->getMessage();
         }
     }
 
     public function searchRecommendation(): ?array
     {
-        $connections = $this->tree->getHashTable();
-        $userConnections = $connections[$this->user->getEmail()];
+        $myConnection = $this->user->getConnections();
         $allConnections = [];
-        foreach ($userConnections as $connection) {
+        foreach ($myConnection as $connection) {
             try {
                 $conn = $this->tree->searchNodeByEmail($this->tree->getRoot(), $connection);
-                $allConnections[] = $conn->getConnections();
+                if(count($conn->getConnections()) > 0){
+                    foreach ($conn->getConnections() as $friendConn){
+                        if(!in_array($friendConn, $allConnections) && $friendConn !== $this->user->getEmail() && !in_array($friendConn, $this->user->getConnections())){
+                            $allConnections[] = $friendConn;
+                        }
+                    }
+                }
             } catch (UserNotFoundException $e) {
-                echo $e->getMessage();
             }
         }
         return $allConnections;
@@ -105,9 +129,8 @@ class SocialNetwork
         $hashTable = $this->tree->getHashTable();
 
         if (key_exists($user->getEmail(), $hashTable) && $hashTable[$user->getEmail()]) {
-            $count = 1;
-            foreach ($hashTable[$user->getEmail()] as $friends) {
-                echo $count . " - $friends" . PHP_EOL;
+            foreach ($hashTable[$user->getEmail()] as $key=>$friends) {
+                echo $key+1 . " - $friends" . PHP_EOL;
             }
         } else {
             echo "Você nao possui amigos adicionados!" . PHP_EOL;

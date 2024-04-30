@@ -52,6 +52,9 @@ class BinaryTree
         return $this->hashTable;
     }
 
+    /**
+     * @throws UserNotFoundException
+     */
     public function searchNodeByEmail(?Node $node, string $email): null|User
     {
         if ($node === null) {

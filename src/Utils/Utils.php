@@ -3,6 +3,7 @@
 namespace src\Utils;
 
 use src\Classes\Exceptions\EmailAlreadyExistsException;
+use src\Classes\SocialNetwork;
 use src\Classes\Tree\BinaryTree;
 use src\Classes\User;
 
@@ -24,6 +25,16 @@ class Utils
         $socialNetwork->insert(new User(34, "Thiago", "thiago@gmail.com", "123456"));
         $socialNetwork->insert(new User(99, "Jorge", "jorge@gmail.com", "123456"));
         $socialNetwork->insert(new User(99, "Lionel Ronaldo Junior", "lrj@gmail.com", "123456"));
+    }
+
+    public function addFriendsToMarcos(SocialNetwork $socialNetwork)
+    {
+        $socialNetwork->signIn('marcos@gmail.com', '123456');
+        $socialNetwork->addFriend('julia123@gmail.com');
+        $socialNetwork->addFriend('ana@gmail.com');
+        $socialNetwork->addFriend('lucas@gmail.com');
+        $socialNetwork->addFriend('matheus@gmail.com');
+        $socialNetwork->addFriend('gabriel@gmail.com');
     }
 
     public static function pressEnter(): void
